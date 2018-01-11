@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1, maximum-scale=1,user-scalable=no" />
+    <title>DEMO</title>
+    <script src="http://bearshop.cc/Public/common/js/jquery.js"></script>
+    <link rel="stylesheet" href="http://bearshop.cc/Public/common/layui/css/layui.css">
+</head>
+<body class="layui-row">
+<form class="layui-form" action="__CONTROLLER__/sendMails">
+    <div class="layui-form-item">
+        <label class="layui-form-label">APPID</label>
+        <div class="layui-input-block">
+            <!--lay-verify="required"-->
+            <input type="text" name="appid" value="email_a57e9924cbeac5c379676d3f7bd1a34b" lay-verify="required"   placeholder="必填项" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">key</label>
+        <div class="layui-input-block">
+            <input type="text" name="key" value="935291958" lay-verify="required" placeholder="必填项" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">发件人昵称</label>
+        <div class="layui-input-block">
+            <input type="text" name="mename"  lay-verify="required" placeholder="必填项[小明]" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">收件人邮箱</label>
+            <div class="layui-input-block">
+                <input type="text" name="to" lay-verify="required"  placeholder="必填项[935291958@qq.com]" autocomplete="off" class="layui-input">
+            </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">主题</label>
+        <div class="layui-input-block">
+            <input type="text" name="subject"  lay-verify="required"  placeholder="必填项[我只是想测试]" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">邮件内容</label>
+        <div class="layui-input-block">
+            <textarea name="content"  placeholder="支持html标签" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+
+</body>
+<script src="http://bearshop.cc/Public/common/layui/layuiAll.js"></script>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function(){
+        var element = layui.element;
+
+    });
+</script>
+<script>
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+
+            $appid = data.field.appid;
+            $key = data.field.key;
+            $to = data.field.to;
+            $mename = data.field.mename;
+            $subject = data.field.subject;
+            $content = data.field.content;
+            //显示加载层
+            var loadIndex = layer.load();
+            console.log(loadIndex);
+            $.ajax({
+                url:'__CONTROLLER__/sendMails',
+                dataType:'json',
+                type:'post',
+                data:data.field,
+                success:function (res) {
+
+                    if('object'!==typeof res){
+                        layer.alert('返回数据有误');
+                        return false;
+                    }
+                    if(res.res !== true){
+                        layer.alert(res.msg);
+                        return false;
+                    }
+                    //发送成功
+
+
+                    setTimeout(function () {
+                        layer.msg(res.msg);
+                    },500);
+
+                },
+                error:function () {
+                    layer.alert('请求失败');
+                },
+                complete:function () {
+                    //关闭加载层
+                    layer.close(loadIndex);
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
+</html>
