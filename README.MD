@@ -1,4 +1,4 @@
-###安装步骤
-*  导入SQL文件
-* 更改配置文件 app\email\Common\Conf\config.php
-* 访问email.php 测试
+###瀹夎姝ラ
+*  瀵煎叆SQL鏂囦欢
+* 鏇存敼閰嶇疆鏂囦欢 app\email\Common\Conf\config.php
+* 璁块棶email.php 娴嬭瘯
